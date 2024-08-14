@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using HarmonyLib;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace MinimalMainMenu;
 
@@ -59,22 +58,9 @@ public class MinimalMainMenu : MonoBehaviour
 
         Transform expansion = s2.Find("ExpansionDependentOptions");
         Transform buildMissions = s2.Find("ExpansionDependentOptions/MissionBuilder");
+        Transform buyMakingHistory = s2.Find("ExpansionDependentOptions/MakingHistory");
+        Transform buyBreakingGround = s2.Find("ExpansionDependentOptions/Serenity");
         Transform back = s2.Find("Back");
-        
-        int numExpansionItems = 0;
-        VerticalLayoutGroup vx = expansion.gameObject.GetComponent<VerticalLayoutGroup>();
-        if (vx is not null)
-        {
-            vx.spacing = -2.5f;
-            vx.childAlignment = TextAnchor.MiddleCenter;
-            foreach(Transform child in expansion)
-            {
-                if (child.gameObject.activeSelf)
-                {
-                    numExpansionItems++;
-                }
-            }
-        }
         
         // Hide misc menu items
         SetActive(startGame, false);
@@ -83,6 +69,8 @@ public class MinimalMainMenu : MonoBehaviour
         SetActive(merch, false);
         SetActive(header, false);
         SetActive(buildMissions, false);
+        SetActive(buyMakingHistory, false);
+        SetActive(buyBreakingGround, false);
         SetActive(back, false);
         
         List<Transform> menuItems =
@@ -103,11 +91,13 @@ public class MinimalMainMenu : MonoBehaviour
         ];
 
 
-        const float offset = 0.005f;
+        const float offset = 0.01f;
+        const float logoOffset = 0.1794f;
+        const float expansionOffset = 0.12f;
         
         var startT = startGame.transform.position;
 
-        logo.position = new(logo.position.x, 0.1794f + offset, logo.position.z);
+        logo.position = new(logo.position.x, logoOffset + offset, logo.position.z);
         
         int index = 0;
         foreach (var menuItem in menuItems)
@@ -117,8 +107,8 @@ public class MinimalMainMenu : MonoBehaviour
             
             if (menuItem == expansion)
             {
-                menuItem.transform.position = new(startT.x, menuItem.transform.position.y - (numExpansionItems / 2.0f * 0.05f) + 0.025f, startT.z);
-                index += numExpansionItems;
+                menuItem.transform.position = new(startT.x, menuItem.transform.position.y - expansionOffset, startT.z);
+                index++;
             }
             else
             {
