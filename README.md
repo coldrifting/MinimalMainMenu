@@ -11,3 +11,8 @@ the following menu items have been removed:
 * Addons
 * Merch
 * Mission Builder (It can be accessed from Play Missions)
+* Buy Making History
+* Buy Breaking Ground
+
+Requirements:
+* [Harmony](https://github.com/KSPModdingLibs/HarmonyKSP/releases/latest)
