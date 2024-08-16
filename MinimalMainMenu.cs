@@ -1,6 +1,8 @@
 ﻿using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using HarmonyLib;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace MinimalMainMenu;
 
@@ -23,6 +25,11 @@ public class NoMainMenuAnimations : MonoBehaviour
 public class MinimalMainMenu : MonoBehaviour
 {
     public void Start()
+    {
+        Apply();
+    }
+    
+    public void Apply()
     {
         GameObject mainMenu = GameObject.Find("MainMenu");
         if (mainMenu is null)
@@ -58,9 +65,17 @@ public class MinimalMainMenu : MonoBehaviour
 
         Transform expansion = s2.Find("ExpansionDependentOptions");
         Transform buildMissions = s2.Find("ExpansionDependentOptions/MissionBuilder");
-        Transform buyMakingHistory = s2.Find("ExpansionDependentOptions/MakingHistory");
-        Transform buyBreakingGround = s2.Find("ExpansionDependentOptions/Serenity");
+        Transform buyMakingHistory = s2.Find("ExpansionDependentOptions/BuyMakingHistory");
+        Transform buyBreakingGround = s2.Find("ExpansionDependentOptions/BuySerenity");
         Transform back = s2.Find("Back");
+
+        if (expansion)
+        {
+            if (expansion.GetComponent<VerticalLayoutGroup>() is { } vlg)
+            {
+                vlg.spacing = -2.25f;
+            }
+        }
         
         // Hide misc menu items
         SetActive(startGame, false);
@@ -115,13 +130,14 @@ public class MinimalMainMenu : MonoBehaviour
                 index++;
             }
         }
-        
-        
     }
 
     private static void SetActive(Component t, bool b)
     {
-        t?.gameObject.SetActive(b);
+        if (t)
+        {
+            t.gameObject.SetActive(b);
+        }
     }
 }
 
@@ -129,7 +145,7 @@ public class MinimalMainMenu : MonoBehaviour
 [HarmonyPatch("Update")]
 public class MainMenuNoAnimationPatch
 {
-    // ReSharper disable InconsistentNaming
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
     public static void Postfix(ref MainMenuEnvLogic __instance, ref Vector3 ___tgtPos, ref Quaternion ___tgtRot)
     {
         __instance.landscapeCamera.transform.position = ___tgtPos;
