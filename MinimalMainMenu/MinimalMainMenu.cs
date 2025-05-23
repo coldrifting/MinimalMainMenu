@@ -7,16 +7,16 @@ using UnityEngine.UI;
 namespace MinimalMainMenu;
 
 [KSPAddon(KSPAddon.Startup.MainMenu, true)]
-public class NoMainMenuAnimations : MonoBehaviour
+public class MinimalMainMenuPatcher : MonoBehaviour
 {
     public void Start()
     {
-        Debug.Log("NoMainMenuAnimations: Patching...");
+        Debug.Log("[MinimalMainMenu] Patching Methods...");
 
         Harmony harmony = new Harmony("com.coldrifting.NoMainMenuAnimations");
         harmony.PatchAll();
 
-        Debug.Log("NoMainMenuAnimations: Patched");
+        Debug.Log("[MinimalMainMenu] Methods Patched Successfully");
     }
 }
 
@@ -150,5 +150,20 @@ public class MainMenuNoAnimationPatch
     {
         __instance.landscapeCamera.transform.position = ___tgtPos;
         __instance.landscapeCamera.transform.rotation = ___tgtRot;
+    }
+}
+
+[HarmonyPatch(typeof(ScenarioNewGameIntro))]
+[HarmonyPatch(nameof(ScenarioNewGameIntro.OnLoad))]
+public class DisableNewGameTutorialPatch
+{
+    [SuppressMessage("ReSharper", "InconsistentNaming")]
+    public static bool Prefix(ref ScenarioNewGameIntro __instance)
+    {
+        __instance.kscComplete = true;
+        __instance.tsComplete = true;
+        __instance.editorComplete = true;
+        
+        return false;
     }
 }
