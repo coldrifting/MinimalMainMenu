@@ -13,7 +13,7 @@ public class MinimalMainMenuPatcher : MonoBehaviour
     {
         Debug.Log("[MinimalMainMenu] Patching Methods...");
 
-        Harmony harmony = new Harmony("com.coldrifting.NoMainMenuAnimations");
+        Harmony harmony = new("com.coldrifting.NoMainMenuAnimations");
         harmony.PatchAll();
 
         Debug.Log("[MinimalMainMenu] Methods Patched Successfully");
@@ -32,7 +32,7 @@ public class MinimalMainMenu : MonoBehaviour
     public void Apply()
     {
         GameObject mainMenu = GameObject.Find("MainMenu");
-        if (mainMenu is null)
+        if (mainMenu == null)
         {
             return;
         }
@@ -40,7 +40,7 @@ public class MinimalMainMenu : MonoBehaviour
         Transform s1 = mainMenu.transform.Find("stage 1");
         Transform s2 = mainMenu.transform.Find("stage 2");
 
-        if (s1 is null || s2 is null)
+        if (s1 == null || s2 == null)
         {
             return;
         }
@@ -71,7 +71,8 @@ public class MinimalMainMenu : MonoBehaviour
 
         if (expansion)
         {
-            if (expansion.GetComponent<VerticalLayoutGroup>() is { } vlg)
+            VerticalLayoutGroup vlg = expansion.GetComponent<VerticalLayoutGroup>();
+            if (vlg != null)
             {
                 vlg.spacing = -2.25f;
             }

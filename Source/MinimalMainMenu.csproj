@@ -8,9 +8,9 @@
         <AppDesignerFolder>Properties</AppDesignerFolder>
         <RootNamespace>MinimalMainMenu</RootNamespace>
         <AssemblyName>MinimalMainMenu</AssemblyName>
-        <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
+        <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
         <FileAlignment>512</FileAlignment>
-        <LangVersion>default</LangVersion>
+        <LangVersion>12</LangVersion>
         <Nullable>disable</Nullable>
     </PropertyGroup>
     <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -38,17 +38,12 @@
     </ItemGroup>
     <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
     <ItemGroup>
-        <PackageReference Include="KSPBuildTools" Version="0.0.3" />
+        <PackageReference Include="KSPBuildTools" Version="1.1.1" />
     </ItemGroup>
     <ItemGroup>
-        <Reference Include="Harmony">
-            <HintPath>$(ReferencePath)\GameData\000_Harmony\0Harmony.dll</HintPath>
-            <Private>False</Private>
-        </Reference>
+        <ModReference Include="0Harmony">
+            <DLLPath>GameData/000_Harmony/0Harmony.dll</DLLPath>
+            <CKANIdentifier>Harmony2</CKANIdentifier>
+        </ModReference>
     </ItemGroup>
-    <PropertyGroup>
-        <PostBuildEvent>
-            xcopy "$(TargetDir)$(ProjectName).dll" "$(ReferencePath)\GameData\$(ProjectName)\"  /F /R /Y /I
-        </PostBuildEvent>
-    </PropertyGroup>
 </Project>
